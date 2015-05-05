@@ -101,21 +101,7 @@ namespace HouseHotelv2.Controllers
             return CreatedAtRoute("DefaultApi", new { id = reservation.ReservationID }, reservation);
         }
 
-        // DELETE: api/Reservations/5
-        [ResponseType(typeof(Reservation))]
-        public async Task<IHttpActionResult> DeleteReservation(string id)
-        {
-            Reservation reservation = await db.Reservations.FindAsync(id);
-            if (reservation == null)
-            {
-                return NotFound();
-            }
-
-            db.Reservations.Remove(reservation);
-            await db.SaveChangesAsync();
-
-            return Ok(reservation);
-        }
+      
 
         protected override void Dispose(bool disposing)
         {
