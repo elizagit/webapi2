@@ -14,41 +14,66 @@ namespace HouseHotelv2.Controllers
     {
         private happyhousesv4Entities db = new happyhousesv4Entities();
         
-        // GET api/<controller>
-        public IEnumerable<Property> GetProperties()
+        // GET ...api/properties
+        public IEnumerable<Property> GetAllProperties()
         {
             return db.Properties;
         }
 
        
-       /* [HttpGet]
-        // GET api/<controller>/P0005
-        public Property GetProperty(string id)
+        [HttpGet]
+        // ...GET api/properties/P0005
+        public Property GetPropertyById(string id)
         {
             return db.Properties.First(p => p.PropertyID == id);
 
         }
-        */
-        public IEnumerable<Property> GetPropertiesByCountry(string country)
+        // .../api/properties?country=italy
+        public IHttpActionResult GetPropertiesByCountry(String country)
         {
-            return db.Properties.Where(p =>p.Country == country);
+            // LINQ query, find matching entries for name
+            var entries = db.Properties.Where(p => p.Country.ToUpper() == country.ToUpper());
+            if (entries == null)
+            {
+                return NotFound();
+            }
+            return Ok(entries);
         }
-
+       // .../api/properties?description=caravan
+        public IHttpActionResult GetPropertiesByType(String description)
+        {
+            // LINQ query, find matching entries for caravan
+            var entries = db.Properties.Where(p => p.Unit_description.ToUpper() == description.ToUpper());
+            if (entries == null)
+            {
+                return NotFound();
+            }
+            return Ok(entries);
+        }
+        // .../api/properties?bedrooms=3
+        public IHttpActionResult GetPropertiesByNoOfBedrooms(String bedrooms)
+        {
+            // LINQ query, find matching entries for caravan
+            var entries = db.Properties.Where(p => p.Number_of_Bedrooms.ToUpper() == bedrooms.ToUpper());
+            if (entries == null)
+            {
+                return NotFound();
+            }
+            return Ok(entries);
+        }
+        // .../api/properties?availability=1
+        public IHttpActionResult GetAvailability(String availability)
+        {
+            // LINQ query, find matching entries for caravan
+            var entries = db.Properties.Where(p => p.Availability.ToUpper() == availability.ToUpper());
+            if (entries == null)
+            {
+                return NotFound();
+            }
+            return Ok(entries);
+        }
     
 
-        // POST api/<controller>
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
-        }
+      
     }
 }
